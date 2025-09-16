@@ -12,7 +12,7 @@ import UniversityMatch from "./pages/UniversityMatch";
 import DocumentGenerator from "./pages/DocumentGenerator";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
