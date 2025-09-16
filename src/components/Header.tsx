@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { BookOpen, User, Menu, LogOut } from "lucide-react";
+import { BookOpen, User, Menu, LogOut, FileText, BarChart3 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -34,15 +34,40 @@ export const Header = () => {
         </div>
         
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="#features" className="text-muted-foreground hover:text-primary transition-colors">
-            功能介绍
-          </a>
-          <a href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">
-            价格方案
-          </a>
-          <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">
-            联系我们
-          </a>
+          {user ? (
+            <>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/dashboard')}
+                className="text-muted-foreground hover:text-primary"
+              >
+                <BarChart3 className="mr-2 h-4 w-4" />
+                控制台
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/document-generator')}
+                className="text-muted-foreground hover:text-primary"
+              >
+                <FileText className="mr-2 h-4 w-4" />
+                我的申请包
+              </Button>
+            </>
+          ) : (
+            <>
+              <a href="#features" className="text-muted-foreground hover:text-primary transition-colors">
+                功能介绍
+              </a>
+              <a href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">
+                价格方案
+              </a>
+              <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">
+                联系我们
+              </a>
+            </>
+          )}
         </nav>
 
         <div className="flex items-center space-x-4">

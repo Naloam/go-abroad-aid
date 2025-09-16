@@ -32,13 +32,32 @@ export const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Button variant="gradient" size="lg">
-                立即开始免费试用
+              <Button 
+                variant="gradient" 
+                size="lg"
+                onClick={() => window.location.href = '/auth'}
+              >
+                一键生成申请包
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button variant="outline" size="lg">
-                观看演示视频
+                查看生成示例
               </Button>
+            </div>
+            
+            {/* 演示流程 */}
+            <div className="bg-card/50 backdrop-blur-sm rounded-lg p-4 mb-8 border">
+              <p className="text-sm text-muted-foreground mb-3">✨ 3步即可完成：</p>
+              <div className="flex items-center gap-2 text-sm">
+                <span className="bg-primary/10 text-primary px-2 py-1 rounded text-xs">1</span>
+                <span className="text-muted-foreground">上传简历&成绩单</span>
+                <ArrowRight className="h-3 w-3 text-muted-foreground" />
+                <span className="bg-primary/10 text-primary px-2 py-1 rounded text-xs">2</span>
+                <span className="text-muted-foreground">AI自动生成文书</span>
+                <ArrowRight className="h-3 w-3 text-muted-foreground" />
+                <span className="bg-primary/10 text-primary px-2 py-1 rounded text-xs">3</span>
+                <span className="text-muted-foreground">编辑&导出PDF</span>
+              </div>
             </div>
 
             <div className="flex items-center gap-8 text-sm text-muted-foreground">
