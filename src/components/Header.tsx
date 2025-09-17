@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { BookOpen, User, Menu, LogOut, FileText, BarChart3 } from "lucide-react";
+import { BookOpen, User, Menu, LogOut, FileText, BarChart3, Calendar, Users, CheckSquare, Calculator, School } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -33,7 +33,7 @@ export const Header = () => {
           <span className="text-xl font-bold text-foreground">留学助手</span>
         </div>
         
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
           {user ? (
             <>
               <Button 
@@ -52,7 +52,25 @@ export const Header = () => {
                 className="text-muted-foreground hover:text-primary"
               >
                 <FileText className="mr-2 h-4 w-4" />
-                我的申请包
+                文书生成
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/application-timeline')}
+                className="text-muted-foreground hover:text-primary"
+              >
+                <Calendar className="mr-2 h-4 w-4" />
+                申请时间线
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/checklist')}
+                className="text-muted-foreground hover:text-primary"
+              >
+                <CheckSquare className="mr-2 h-4 w-4" />
+                材料清单
               </Button>
             </>
           ) : (

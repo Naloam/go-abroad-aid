@@ -14,6 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
+      application_checklist: {
+        Row: {
+          created_at: string
+          due_date: string | null
+          id: string
+          is_completed: boolean | null
+          item_name: string
+          item_type: string
+          notes: string | null
+          program_name: string
+          university_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          is_completed?: boolean | null
+          item_name: string
+          item_type: string
+          notes?: string | null
+          program_name: string
+          university_name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          is_completed?: boolean | null
+          item_name?: string
+          item_type?: string
+          notes?: string | null
+          program_name?: string
+          university_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      application_timeline: {
+        Row: {
+          application_deadline: string
+          created_at: string
+          early_deadline: string | null
+          id: string
+          notes: string | null
+          priority: number | null
+          program_name: string
+          status: string
+          university_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          application_deadline: string
+          created_at?: string
+          early_deadline?: string | null
+          id?: string
+          notes?: string | null
+          priority?: number | null
+          program_name: string
+          status?: string
+          university_name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          application_deadline?: string
+          created_at?: string
+          early_deadline?: string | null
+          id?: string
+          notes?: string | null
+          priority?: number | null
+          program_name?: string
+          status?: string
+          university_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       applications: {
         Row: {
           created_at: string
@@ -218,6 +302,57 @@ export type Database = {
           },
         ]
       }
+      recommendation_letters: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          program_name: string
+          recommender_email: string
+          recommender_name: string
+          recommender_title: string | null
+          relationship: string
+          request_date: string | null
+          status: string
+          submission_deadline: string | null
+          university_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          program_name: string
+          recommender_email: string
+          recommender_name: string
+          recommender_title?: string | null
+          relationship: string
+          request_date?: string | null
+          status?: string
+          submission_deadline?: string | null
+          university_name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          program_name?: string
+          recommender_email?: string
+          recommender_name?: string
+          recommender_title?: string | null
+          relationship?: string
+          request_date?: string | null
+          status?: string
+          submission_deadline?: string | null
+          university_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       transcripts: {
         Row: {
           created_at: string
@@ -299,6 +434,36 @@ export type Database = {
           type?: string | null
           updated_at?: string
           website?: string | null
+        }
+        Relationships: []
+      }
+      user_onboarding: {
+        Row: {
+          completed_steps: Json | null
+          created_at: string
+          current_step: number | null
+          id: string
+          is_completed: boolean | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_steps?: Json | null
+          created_at?: string
+          current_step?: number | null
+          id?: string
+          is_completed?: boolean | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_steps?: Json | null
+          created_at?: string
+          current_step?: number | null
+          id?: string
+          is_completed?: boolean | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }

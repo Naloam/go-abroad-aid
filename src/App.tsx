@@ -11,6 +11,10 @@ import GpaCalculator from "./pages/GpaCalculator";
 import UniversityMatch from "./pages/UniversityMatch";
 import DocumentGenerator from "./pages/DocumentGenerator";
 import Profile from "./pages/Profile";
+import ApplicationTimeline from "./pages/ApplicationTimeline";
+import RecommendationManager from "./pages/RecommendationManager";
+import ApplicationChecklist from "./pages/ApplicationChecklist";
+import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -30,6 +34,10 @@ const App = () => (
             <Route path="/gpa-calculator" element={<ProtectedRoute><GpaCalculator /></ProtectedRoute>} />
             <Route path="/university-match" element={<ProtectedRoute><UniversityMatch /></ProtectedRoute>} />
             <Route path="/document-generator" element={<ProtectedRoute><DocumentGenerator /></ProtectedRoute>} />
+            <Route path="/application-timeline" element={<ProtectedRoute><ApplicationTimeline /></ProtectedRoute>} />
+            <Route path="/recommendations" element={<ProtectedRoute><RecommendationManager /></ProtectedRoute>} />
+            <Route path="/checklist" element={<ProtectedRoute><ApplicationChecklist /></ProtectedRoute>} />
+            <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
