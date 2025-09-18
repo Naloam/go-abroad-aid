@@ -65,6 +65,11 @@ const DocumentGenerator = () => {
   const [rightPanel, setRightPanel] = useState("sources");
   const [selectedText, setSelectedText] = useState("");
   
+  // 用户描述输入
+  const [personalDescription, setPersonalDescription] = useState("");
+  const [resumeDescription, setResumeDescription] = useState("");
+  const [researchDescription, setResearchDescription] = useState("");
+  
   // 文档内容和来源追溯
   const [personalStatement, setPersonalStatement] = useState<GeneratedSection>({
     text: "",
@@ -238,6 +243,16 @@ const DocumentGenerator = () => {
   const buildPrompt = (type: string, userData: any) => {
     const { profile, transcripts, preferences } = userData;
     
+    // 获取对应的用户描述
+    let userDescription = "";
+    if (type === 'personal_statement') {
+      userDescription = personalDescription;
+    } else if (type === 'resume') {
+      userDescription = resumeDescription;
+    } else if (type === 'research_plan') {
+      userDescription = researchDescription;
+    }
+    
     let basePrompt = "";
     if (type === 'personal_statement') {
       basePrompt = `请为一位中国学生生成个人陈述(Personal Statement)。
@@ -250,32 +265,41 @@ const DocumentGenerator = () => {
 - 目标专业：${preferences?.preferred_fields?.join(', ') || '未设置'}
 - GPA：${transcripts?.[0]?.weighted_gpa || '未设置'}
 
+${userDescription ? `学生自述：\n${userDescription}\n` : ''}
+
 要求：
 1. 内容要具体、有说服力，突出学术背景和研究兴趣
 2. 语言要流畅、专业，符合英文学术写作规范
 3. 突出学生的优势和潜力，展现个人特色
 4. 字数控制在800-1000字
-5. 结构清晰：开头引入、学术背景、研究兴趣、选择理由、未来规划、结尾总结`;
+5. 结构清晰：开头引入、学术背景、研究兴趣、选择理由、未来规划、结尾总结
+${userDescription ? '6. 请根据学生自述的内容进行个性化撰写' : ''}`;
     } else if (type === 'resume') {
       basePrompt = `请为一位中国学生生成英文简历(Resume/CV)。
 
 学生信息同上。
 
+${userDescription ? `学生自述：\n${userDescription}\n` : ''}
+
 要求：
 1. 使用专业的简历格式
 2. 包含：联系信息、教育背景、研究经历、项目经历、技能、获奖等部分
 3. 突出学术成就和研究能力
-4. 适合${profile?.target_degree || '研究生'}申请使用`;
+4. 适合${profile?.target_degree || '研究生'}申请使用
+${userDescription ? '5. 请根据学生自述的经历和技能进行个性化撰写' : ''}`;
     } else if (type === 'research_plan') {
       basePrompt = `请为一位中国学生生成研究计划(Research Plan)。
 
 学生信息同上。
 
+${userDescription ? `学生自述：\n${userDescription}\n` : ''}
+
 要求：
 1. 包含研究背景、研究问题、研究方法、预期成果等部分
 2. 体现学术水平和研究思维
 3. 与申请专业高度相关
-4. 字数控制在1000-1500字`;
+4. 字数控制在1000-1500字
+${userDescription ? '5. 请根据学生自述的研究兴趣和想法进行个性化撰写' : ''}`;
     }
     
     return basePrompt;
@@ -689,8 +713,32 @@ const DocumentGenerator = () => {
                   </TabsList>
                   
                   <TabsContent value="personal_statement" className="mt-4">
-                    <Textarea
-                      placeholder="在此编辑个人陈述...
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="personal-description" className="text-sm font-medium">
+                          个人情况描述 <span className="text-muted-foreground">(帮助AI更好地了解您)</span>
+                        </Label>
+                        <Textarea
+                          id="personal-description"
+                          placeholder="请简单描述您的学术背景、研究兴趣、个人经历等，例如：
+• 本科专业和主要课程
+• 参与过的研究项目或实习经历  
+• 对申请专业的兴趣和理解
+• 个人特色和优势
+• 未来职业规划等"
+                          value={personalDescription}
+                          onChange={(e) => setPersonalDescription(e.target.value)}
+                          className="min-h-[120px] resize-none text-sm"
+                        />
+                      </div>
+                      <Separator />
+                      <div>
+                        <Label htmlFor="personal-statement" className="text-sm font-medium">
+                          个人陈述正文
+                        </Label>
+                        <Textarea
+                          id="personal-statement"
+                          placeholder="在此编辑个人陈述...
 
 提示：一份优秀的个人陈述应包含：
 • 引人入胜的开头
@@ -699,15 +747,41 @@ const DocumentGenerator = () => {
 • 选择该项目的原因
 • 未来职业规划
 • 有力的结尾"
-                      value={personalStatement.text}
-                      onChange={(e) => setPersonalStatement(prev => ({ ...prev, text: e.target.value }))}
-                      className="min-h-[500px] resize-none font-mono text-sm leading-relaxed"
-                    />
+                          value={personalStatement.text}
+                          onChange={(e) => setPersonalStatement(prev => ({ ...prev, text: e.target.value }))}
+                          className="min-h-[400px] resize-none font-mono text-sm leading-relaxed"
+                        />
+                      </div>
+                    </div>
                   </TabsContent>
                   
                   <TabsContent value="resume" className="mt-4">
-                    <Textarea
-                      placeholder="在此编辑简历内容...
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="resume-description" className="text-sm font-medium">
+                          简历相关信息描述 <span className="text-muted-foreground">(帮助AI生成更准确的简历)</span>
+                        </Label>
+                        <Textarea
+                          id="resume-description"
+                          placeholder="请描述您的教育背景、工作经历、技能特长等，例如：
+• 教育经历 (学校、专业、成绩、主要课程等)
+• 研究经历 (参与的项目、担任的角色、取得的成果)
+• 工作/实习经历 (公司、职位、主要工作内容)
+• 技能特长 (编程语言、软件工具、语言能力等)
+• 获奖情况、发表论文、专利等"
+                          value={resumeDescription}
+                          onChange={(e) => setResumeDescription(e.target.value)}
+                          className="min-h-[120px] resize-none text-sm"
+                        />
+                      </div>
+                      <Separator />
+                      <div>
+                        <Label htmlFor="resume-content" className="text-sm font-medium">
+                          简历正文
+                        </Label>
+                        <Textarea
+                          id="resume-content"
+                          placeholder="在此编辑简历内容...
 
 建议包含以下部分：
 • Contact Information
@@ -718,15 +792,42 @@ const DocumentGenerator = () => {
 • Awards and Honors
 • Skills
 • Projects"
-                      value={resume.text}
-                      onChange={(e) => setResume(prev => ({ ...prev, text: e.target.value }))}
-                      className="min-h-[500px] resize-none font-mono text-sm leading-relaxed"
-                    />
+                          value={resume.text}
+                          onChange={(e) => setResume(prev => ({ ...prev, text: e.target.value }))}
+                          className="min-h-[400px] resize-none font-mono text-sm leading-relaxed"
+                        />
+                      </div>
+                    </div>
                   </TabsContent>
                   
                   <TabsContent value="research_plan" className="mt-4">
-                    <Textarea
-                      placeholder="在此编辑研究计划...
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="research-description" className="text-sm font-medium">
+                          研究方向描述 <span className="text-muted-foreground">(帮助AI制定研究计划)</span>
+                        </Label>
+                        <Textarea
+                          id="research-description"
+                          placeholder="请描述您的研究兴趣和想法，例如：
+• 感兴趣的研究领域和方向
+• 已了解的相关研究现状
+• 希望解决的问题或探索的课题
+• 研究方法的初步想法
+• 预期的研究成果和应用价值
+• 与导师或实验室的匹配度"
+                          value={researchDescription}
+                          onChange={(e) => setResearchDescription(e.target.value)}
+                          className="min-h-[120px] resize-none text-sm"
+                        />
+                      </div>
+                      <Separator />
+                      <div>
+                        <Label htmlFor="research-plan" className="text-sm font-medium">
+                          研究计划正文
+                        </Label>
+                        <Textarea
+                          id="research-plan"
+                          placeholder="在此编辑研究计划...
 
 研究计划应包含：
 • Research Background and Motivation
@@ -736,10 +837,12 @@ const DocumentGenerator = () => {
 • Expected Contributions
 • Timeline
 • Conclusion"
-                      value={researchPlan.text}
-                      onChange={(e) => setResearchPlan(prev => ({ ...prev, text: e.target.value }))}
-                      className="min-h-[500px] resize-none font-mono text-sm leading-relaxed"
-                    />
+                          value={researchPlan.text}
+                          onChange={(e) => setResearchPlan(prev => ({ ...prev, text: e.target.value }))}
+                          className="min-h-[400px] resize-none font-mono text-sm leading-relaxed"
+                        />
+                      </div>
+                    </div>
                   </TabsContent>
                 </Tabs>
               </CardContent>
