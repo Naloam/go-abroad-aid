@@ -41,7 +41,7 @@ const ApplicationChecklist = () => {
   const [items, setItems] = useState<ChecklistItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [selectedUniversity, setSelectedUniversity] = useState<string>("");
+  const [selectedUniversity, setSelectedUniversity] = useState<string>("all");
   const [formData, setFormData] = useState({
     university_name: "",
     program_name: "",
@@ -246,14 +246,14 @@ const ApplicationChecklist = () => {
                     <SelectValue placeholder="全部学校" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">全部学校</SelectItem>
+                    <SelectItem value="all">全部学校</SelectItem>
                     {universities.map(uni => (
                       <SelectItem key={uni} value={uni}>{uni}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                {selectedUniversity && (
-                  <Button variant="outline" onClick={() => setSelectedUniversity("")}>
+                {selectedUniversity && selectedUniversity !== "all" && (
+                  <Button variant="outline" onClick={() => setSelectedUniversity("all")}>
                     清除筛选
                   </Button>
                 )}
@@ -354,7 +354,7 @@ const ApplicationChecklist = () => {
             </Card>
           ) : (
             Object.entries(groupedItems)
-              .filter(([university]) => !selectedUniversity || university.includes(selectedUniversity))
+              .filter(([university]) => selectedUniversity === "all" || university.includes(selectedUniversity))
               .map(([universityProgram, schoolItems]) => {
                 const completedItems = schoolItems.filter(item => item.is_completed).length;
                 const completionRate = (completedItems / schoolItems.length) * 100;
