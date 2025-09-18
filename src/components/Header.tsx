@@ -48,6 +48,24 @@ export const Header = () => {
               <Button 
                 variant="ghost" 
                 size="sm"
+                onClick={() => navigate('/gpa-calculator')}
+                className="text-muted-foreground hover:text-primary"
+              >
+                <Calculator className="mr-2 h-4 w-4" />
+                GPA计算
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/university-match')}
+                className="text-muted-foreground hover:text-primary"
+              >
+                <School className="mr-2 h-4 w-4" />
+                院校匹配
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
                 onClick={() => navigate('/document-generator')}
                 className="text-muted-foreground hover:text-primary"
               >
@@ -62,6 +80,15 @@ export const Header = () => {
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 申请时间线
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/recommendations')}
+                className="text-muted-foreground hover:text-primary"
+              >
+                <Users className="mr-2 h-4 w-4" />
+                推荐信管理
               </Button>
               <Button 
                 variant="ghost" 

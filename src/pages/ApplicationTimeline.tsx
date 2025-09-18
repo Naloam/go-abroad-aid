@@ -84,6 +84,7 @@ const ApplicationTimeline = () => {
         .from('application_timeline')
         .insert({
           ...formData,
+          early_deadline: formData.early_deadline || null, // Convert empty string to null
           user_id: user?.id,
           priority: Number(formData.priority)
         });

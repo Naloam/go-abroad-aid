@@ -94,6 +94,7 @@ const ApplicationChecklist = () => {
         .from('application_checklist')
         .insert({
           ...formData,
+          due_date: formData.due_date || null, // Convert empty string to null
           user_id: user?.id
         });
 

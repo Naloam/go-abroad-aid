@@ -90,6 +90,8 @@ const RecommendationManager = () => {
         .from('recommendation_letters')
         .insert({
           ...formData,
+          request_date: formData.request_date || null, // Convert empty string to null
+          submission_deadline: formData.submission_deadline || null, // Convert empty string to null
           user_id: user?.id
         });
 
